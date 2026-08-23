@@ -124,6 +124,7 @@ export const generationErrorCodeSchema = z.enum([
   "GUARDRAIL_REJECTED",
   "CONTENT_INVALID",
   "PERSISTENCE_FAILURE",
+  "TRANSACTION_CONFLICT",
   "DUPLICATE_RUN",
   "STATE_TRANSITION_INVALID",
 ]);
