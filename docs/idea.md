@@ -15,7 +15,7 @@
 - ブログ的な内容でUIには描画する
 - 言語は英語で！
 
-## 技術スタック
+## 技術スタック(必要に応じて設計フェーズで補ってください。)
 - pnpm
 - monorepo
 - biome
@@ -29,6 +29,7 @@
 - cdk-nag
 - react
 - vite
+- Tailwind CSS
 - typescript
 - Event Bridge (定期実行)
 - Step Functions (情報収集＆内容精査＆世の中のトレンド調査&内容整形)
@@ -39,6 +40,7 @@
 - aws-lambda (honoが標準で提供しているミドルウェア)
 - API Gateway
 - DynamoDB
+- S3
 
 ## 要件
 - 時間がないため、必要最低限に絞って開発をお願いします。
