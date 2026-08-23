@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "build": "esbuild --bundle --outfile=./dist/index.js --platform=node --target=node20 ./src/index.ts",
+    "test": "tsx --test src/**/*.test.ts",
     "zip": "zip -j lambda.zip dist/index.js",
     "update": "aws lambda update-function-code --zip-file fileb://lambda.zip --function-name hello",
     "deploy": "run-s build zip update"
@@ -12,7 +13,8 @@
   "devDependencies": {
     "@types/node": "^26.1.1",
     "esbuild": "^0.28.1",
-    "npm-run-all2": "^9.0.2"
+    "npm-run-all2": "^9.0.2",
+    "tsx": "^4.23.12"
   },
   "dependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.1116.0",
