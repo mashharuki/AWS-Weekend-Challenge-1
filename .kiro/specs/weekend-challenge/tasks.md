@@ -92,12 +92,12 @@
   - _Depends: 5.1, 2.1, 2.2_
 
 - [ ] 6. 閲覧 UI を実装する
-- [ ] 6.1 Tailwind と安全な Markdown 表示基盤を追加する (P)
+- [x] 6.1 Tailwind と安全な Markdown 表示基盤を追加する (P)
   - Tailwind のビルド設定と、HTML を実行しない Markdown 表示ライブラリを追加する。
   - 見出し、段落、リスト、許可プロトコルのリンクを一貫して表示できる基盤を作る。
   - _Requirements: 4.2, 6.4_
   - _Boundary: frontend styling and Markdown renderer_
-- [ ] 6.2 投稿・実行状態の API クライアントと画面状態を実装する
+- [x] 6.2 投稿・実行状態の API クライアントと画面状態を実装する
   - 投稿と最新実行を型付き DTO で取得し、`loading`、`ready`、`empty`、`error` を分離して扱う。
   - 投稿取得が成功した場合、実行状態の取得失敗が本文表示を妨げないようにする。
   - _Requirements: 4.1, 4.4, 5.4_
