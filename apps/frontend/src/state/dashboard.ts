@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { apiClient, type ReadApiClient } from "../api/client.js";
-import type { GenerationRun, PostSummary } from "../types/api.js";
+import type { GenerationRun, PostDetail, PostSummary } from "../types/api.js";
 
 export type PostsState =
   | { readonly status: "loading" }
@@ -12,6 +12,12 @@ export interface DashboardState {
   readonly posts: PostsState;
   readonly latestRun: GenerationRun | null;
 }
+
+export type PostContentState =
+  | { readonly status: "loading" }
+  | { readonly status: "ready"; readonly post: PostDetail }
+  | { readonly status: "empty" }
+  | { readonly status: "error"; readonly message: string };
 
 const loadingState: DashboardState = {
   posts: { status: "loading" },
@@ -53,6 +59,39 @@ export const useDashboard = (
       active = false;
     };
   }, [client]);
+
+  return state;
+};
+
+export const useSelectedPost = (
+  postId: string | null,
+  client: ReadApiClient = apiClient,
+): PostContentState => {
+  const [state, setState] = useState<PostContentState>({ status: "empty" });
+
+  useEffect(() => {
+    if (!postId) {
+      setState({ status: "empty" });
+      return;
+    }
+    let active = true;
+    setState({ status: "loading" });
+    void client
+      .getPost(postId)
+      .then((post) => {
+        if (active) {
+          setState({ status: "ready", post });
+        }
+      })
+      .catch(() => {
+        if (active) {
+          setState({ status: "error", message: "Unable to load this post." });
+        }
+      });
+    return () => {
+      active = false;
+    };
+  }, [client, postId]);
 
   return state;
 };
