@@ -1,0 +1,26 @@
+{
+  "name": "AWS-Weekend-Challenge-1",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "format": "pnpm exec biome format --write .",
+    "check": "pnpm exec biome check --write .",
+    "cdk": "pnpm --filter cdk",
+    "frontend": "pnpm --filter frontend",
+    "backend": "pnpm --filter backend",
+    "knip": "knip",
+    "jscpd": "jscpd apps pkgs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.32.1",
+  "devDependencies": {
+    "@biomejs/biome": "2.5.10",
+    "@types/node": "^26.2.0",
+    "knip": "^6.32.2",
+    "typescript": "^7.0.2"
+  }
+}
