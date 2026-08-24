@@ -69,19 +69,9 @@ test("生成ワークフロー、JST スケジュール、DLQ と監視を定義
   });
   template.resourceCountIs("AWS::Scheduler::ScheduleGroup", 1);
   template.hasResourceProperties("AWS::CloudWatch::Alarm", {
-    Metrics: Match.arrayWith([
-      Match.objectLike({
-        MetricStat: Match.objectLike({
-          Metric: Match.objectLike({
-            Dimensions: Match.arrayWith([
-              Match.objectLike({ Name: "ScheduleGroup" }),
-            ]),
-            MetricName: "TargetErrorCount",
-            Namespace: "AWS/Scheduler",
-          }),
-        }),
-      }),
-    ]),
+    Dimensions: Match.arrayWith([Match.objectLike({ Name: "ScheduleGroup" })]),
+    MetricName: "TargetErrorCount",
+    Namespace: "AWS/Scheduler",
   });
   template.hasResourceProperties("AWS::IAM::Policy", {
     PolicyDocument: Match.objectLike({

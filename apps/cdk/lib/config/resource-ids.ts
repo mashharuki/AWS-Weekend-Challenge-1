@@ -10,7 +10,7 @@ export const resourceIds = {
   workflow: "GenerationWorkflow",
   workflowLogGroup: "GenerationWorkflowLogGroup",
   schedulerDlq: "SchedulerDlq",
-  scheduler: "DailyGenerationSchedule",
+  scheduler: "DailyGenerationScheduleV2",
   publicApi: "PublicApi",
   webDistribution: "WebDistribution",
   schedulerFailureAlarm: "SchedulerFailureAlarm",

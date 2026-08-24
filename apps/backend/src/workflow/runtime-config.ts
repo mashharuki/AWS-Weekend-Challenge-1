@@ -7,10 +7,7 @@ export interface WorkflowRuntimeConfig {
   readonly guardrailVersion: string;
 }
 
-const required = (
-  environment: NodeJS.ProcessEnv,
-  key: string,
-): string => {
+const required = (environment: NodeJS.ProcessEnv, key: string): string => {
   const configured = environment[key]?.trim();
   if (!configured) {
     throw new Error(`Missing ${key}`);

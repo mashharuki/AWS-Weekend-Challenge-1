@@ -213,11 +213,8 @@ export class GenerationWorkflow extends Construct {
     });
     this.stateMachine.grantStartExecution(schedulerRole);
     dlq.grantSendMessages(schedulerRole);
-    const scheduleGroup = new scheduler.CfnScheduleGroup(
-      this,
-      "ScheduleGroup",
-    );
-    const schedule = new scheduler.CfnSchedule(this, resourceIds.scheduler, {
+    const scheduleGroup = new scheduler.CfnScheduleGroup(this, "ScheduleGroup");
+    new scheduler.CfnSchedule(this, resourceIds.scheduler, {
       flexibleTimeWindow: { mode: "OFF" },
       groupName: scheduleGroup.ref,
       scheduleExpression: props.config.scheduleExpression,
@@ -236,7 +233,14 @@ export class GenerationWorkflow extends Construct {
     dlq.addToResourcePolicy(
       new iam.PolicyStatement({
         actions: ["sqs:SendMessage"],
-        conditions: { ArnEquals: { "aws:SourceArn": schedule.attrArn } },
+        conditions: {
+          ArnLike: {
+            "aws:SourceArn": Stack.of(this).formatArn({
+              resource: "schedule/*",
+              service: "scheduler",
+            }),
+          },
+        },
         principals: [new iam.ServicePrincipal("scheduler.amazonaws.com")],
         resources: [dlq.queueArn],
       }),
