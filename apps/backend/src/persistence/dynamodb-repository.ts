@@ -31,6 +31,14 @@ const storedPublishedPostSchema = z.object({
   sourceUrls: z.array(z.string()),
 });
 
+const storedPublishedPostWriteSchema = storedPublishedPostSchema.extend({
+  GSI1PK: z.literal("PUBLISHED"),
+  GSI1SK: z.string(),
+  PK: z.string().regex(/^POST#[0-9a-f-]{36}$/),
+  SK: z.literal("METADATA"),
+  entity: z.literal("POST"),
+});
+
 type StoredPublishedPost = PublishedPost & { readonly bodyKey: string };
 
 export interface DynamoDbPersistencePort {
@@ -135,6 +143,16 @@ export class AwsDynamoDbPersistencePort implements DynamoDbPersistencePort {
   }
 
   async publish(post: Record<string, unknown>, runId: string): Promise<void> {
+    console.info(
+      JSON.stringify({
+        event: "dynamodb-publish-metadata",
+        attributes: Object.entries(post).map(([name, value]) => ({
+          byteLength: Buffer.byteLength(JSON.stringify(value)),
+          name,
+          type: Array.isArray(value) ? "array" : typeof value,
+        })),
+      }),
+    );
     await this.documentClient.send(
       new TransactWriteCommand({
         TransactItems: [
@@ -263,7 +281,7 @@ export class DynamoDbRunPostRepository {
     readonly bodyKey: string;
     readonly publishedAt: string;
   }): Promise<PublishedPost> {
-    const post = storedPublishedPostSchema.parse({
+    const post = storedPublishedPostWriteSchema.parse({
       PK: `POST#${input.postId}`,
       SK: "METADATA",
       GSI1PK: "PUBLISHED",
@@ -368,6 +386,26 @@ const toPersistenceError = (error: unknown): PersistenceError => {
     case "ConditionalCheckFailedException":
       return new PersistenceError("STATE_TRANSITION_INVALID", false);
     case "TransactionCanceledException":
+      if (
+        typeof error === "object" &&
+        error !== null &&
+        "CancellationReasons" in error &&
+        Array.isArray(error.CancellationReasons)
+      ) {
+        console.info(
+          JSON.stringify({
+            event: "dynamodb-transaction-cancelled",
+            reasons: error.CancellationReasons.map((reason) =>
+              typeof reason === "object" &&
+              reason !== null &&
+              "Code" in reason &&
+              typeof reason.Code === "string"
+                ? reason.Code
+                : "Unknown",
+            ),
+          }),
+        );
+      }
       return new PersistenceError("TRANSACTION_CONFLICT", true);
     default:
       return new PersistenceError("PERSISTENCE_FAILURE", true);

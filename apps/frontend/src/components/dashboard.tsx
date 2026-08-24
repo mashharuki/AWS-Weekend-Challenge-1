@@ -36,7 +36,7 @@ export const PostHistory = ({
           <span className="block text-xs font-bold uppercase tracking-[0.18em] text-cyan-700">
             {formatDate(post.publishedAt)}
           </span>
-          <span className="mt-2 block font-serif text-lg font-semibold leading-tight text-slate-950">
+          <span className="mt-2 block break-words font-serif text-lg font-semibold leading-tight text-slate-950">
             {post.title}
           </span>
         </button>
@@ -69,7 +69,7 @@ export const PostViewer = ({
       <p className="font-mono text-xs font-bold uppercase tracking-[0.2em] text-cyan-700">
         Published {formatDate(content.post.publishedAt)}
       </p>
-      <h2 className="mt-3 font-serif text-4xl font-semibold tracking-tight text-slate-950">
+      <h2 className="mt-3 break-words font-serif text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
         {content.post.title}
       </h2>
       <div className="mt-8 border-t border-slate-200 pt-2">

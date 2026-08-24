@@ -15,6 +15,8 @@ export class StrandsBedrockDraftGenerator implements DraftGeneratorPort {
       modelId: options.modelId,
       maxTokens: 1_200,
       temperature: 0.2,
+      // The workflow expects a complete JSON response, not a stream iterator.
+      stream: false,
     });
   }
 

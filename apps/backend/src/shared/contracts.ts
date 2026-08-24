@@ -10,6 +10,7 @@ const isoUtcDateTimeSchema = z
 
 const httpsUrlSchema = z
   .url()
+  .max(2_048, "URL が長すぎます")
   .refine(
     (value) => new URL(value).protocol === "https:",
     "URL は HTTPS で指定します",

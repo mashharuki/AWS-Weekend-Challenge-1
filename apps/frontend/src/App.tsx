@@ -30,7 +30,7 @@ function App() {
         </p>
 
         <div className="mt-10 grid gap-8 lg:grid-cols-[0.72fr_1.55fr]">
-          <aside className="rounded-2xl border border-slate-200 bg-slate-50/70 p-5">
+          <aside className="min-w-0 rounded-2xl border border-slate-200 bg-slate-50/70 p-5">
             <p className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-slate-500">
               Archive
             </p>
@@ -54,7 +54,7 @@ function App() {
             </div>
           </aside>
 
-          <article className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-9">
+          <article className="min-w-0 overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-9">
             <PostViewer content={selectedPost} />
           </article>
         </div>

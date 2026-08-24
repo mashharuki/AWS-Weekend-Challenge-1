@@ -91,7 +91,7 @@
   - _Requirements: 4.1, 4.3, 4.4, 5.4, 6.3, 8.2_
   - _Depends: 5.1, 2.1, 2.2_
 
-- [ ] 6. 閲覧 UI を実装する
+- [x] 6. 閲覧 UI を実装する
 - [x] 6.1 Tailwind と安全な Markdown 表示基盤を追加する (P)
   - Tailwind のビルド設定と、HTML を実行しない Markdown 表示ライブラリを追加する。
   - 見出し、段落、リスト、許可プロトコルのリンクを一貫して表示できる基盤を作る。
@@ -114,32 +114,32 @@
   - _Requirements: 4.1, 4.2, 4.3, 4.4, 5.4, 6.4, 8.2_
   - _Depends: 6.3_
 
-- [ ] 7. CDK の設定とストレージ Construct を実装する
-- [ ] 7.1 型付き CDK 設定、論理 ID、Stack 合成を整備する (P)
+- [x] 7. CDK の設定とストレージ Construct を実装する
+- [x] 7.1 型付き CDK 設定、論理 ID、Stack 合成を整備する (P)
   - チャレンジ環境のリージョン、JST スケジュール、`amazon.nova-lite-v1:0`、許可ソース、ログ保持、削除ポリシーを外部設定として定義する。
   - すべての Construct と資源 ID を集中管理し、Stack にタグと公開 URL の Output を追加する。
   - 雛形 Stack を `CreativeAgentStack` と用途別 Construct を合成する構成へ移行する。
   - _Requirements: 7.1, 7.4, 8.2, 9.4_
   - _Boundary: CDK configuration and stack composition_
-- [ ] 7.2 コンテンツ・実行ストアと最小権限を CDK で定義する
+- [x] 7.2 コンテンツ・実行ストアと最小権限を CDK で定義する
   - DynamoDB のオンデマンド、暗号化、PITR、GSI と、S3 の暗号化、Block Public Access、SSL 強制を定義する。
   - チャレンジ環境の明示的な削除ポリシー、S3 の自動オブジェクト削除、ログ削除を設定する。
   - Read Lambda と Publish Lambda の DynamoDB/S3 権限を分離し、必要なトランザクション操作だけを許可する。
   - _Requirements: 3.3, 5.1, 5.2, 6.1, 6.3, 7.1, 7.3_
   - _Depends: 7.1_
-- [ ] 7.3 生成用 Lambda、StateMachine、Scheduler、DLQ、監視を CDK で定義する
+- [x] 7.3 生成用 Lambda、StateMachine、Scheduler、DLQ、監視を CDK で定義する
   - 各ハンドラーを Node.js 20 Lambda としてバンドルし、Bedrock、Secrets Manager、DynamoDB、S3 への最小権限を付与する。
   - EventBridge Scheduler の JST cron、retry policy、SQS DLQ、DLQ/ターゲット失敗アラームを定義する。
   - Step Functions の Retry/Catch、CloudWatch Logs、`RecordFailure` への終端分岐、Guardrails 使用権限を定義する。
   - _Requirements: 1.1, 1.2, 1.4, 2.4, 5.1, 5.3, 6.1, 6.2, 7.1, 8.1_
   - _Depends: 4.2, 7.1, 7.2_
-- [ ] 7.4 読み取り API と Web 配信を CDK で定義する
+- [x] 7.4 読み取り API と Web 配信を CDK で定義する
   - HTTP API の GET ルート、route-level throttling、Read Lambda の予約同時実行数を定義する。
   - Vite 生成物を非公開 S3 バケットへ配備し、CloudFront OAC と `/api/*` の API オリジン、キャッシュ無効ポリシーを設定する。
   - API を認証なし公開読み取りと明記し、CORS をアクセス制御として使用しない。
   - _Requirements: 4.1, 4.3, 5.4, 6.3, 7.1, 7.2_
   - _Depends: 5.1, 6.3, 7.1, 7.2_
-- [ ] 7.5 CDK のセキュリティ・配備構成を検証する
+- [x] 7.5 CDK のセキュリティ・配備構成を検証する
   - cdk-nag を Stack に適用し、不可避な抑制は理由と対象を最小化して記録する。
   - 合成テンプレートで、S3 非公開・暗号化、DynamoDB 設定、Scheduler DLQ、アラーム、GET 限定 API、最小権限、ログ保持・削除を assertions で検証する。
   - `cdk synth` と `cdk diff` が再現可能に実行できることを確認する。
@@ -147,7 +147,7 @@
   - _Depends: 7.2, 7.3, 7.4_
 
 - [ ] 8. 実環境の統合検証と運用証跡を整備する
-- [ ] 8.1 AWS 上で配備前後のスモークテストを実行する
+- [x] 8.1 AWS 上で配備前後のスモークテストを実行する
   - `cdk synth`、配備、CloudFront の UI、公開 API、DynamoDB/S3 の公開状態、削除操作を順に検証する。
   - 運用ログに秘密値・本文全文が含まれないこと、削除後に管理対象資源が残らないことを確認する。
   - _Requirements: 6.1, 6.3, 7.1, 7.2, 7.3, 8.1, 8.3, 9.4_

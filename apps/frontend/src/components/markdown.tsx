@@ -30,17 +30,17 @@ const components: Components = {
       <span>{children}</span>
     ),
   h1: ({ children }) => (
-    <h1 className="mt-8 font-serif text-3xl font-semibold text-slate-950 first:mt-0">
+    <h1 className="mt-8 break-words font-serif text-3xl font-semibold text-slate-950 first:mt-0">
       {children}
     </h1>
   ),
   h2: ({ children }) => (
-    <h2 className="mt-7 font-serif text-2xl font-semibold text-slate-950">
+    <h2 className="mt-7 break-words font-serif text-2xl font-semibold text-slate-950">
       {children}
     </h2>
   ),
   p: ({ children }) => (
-    <p className="mt-4 leading-8 text-slate-700">{children}</p>
+    <p className="mt-4 break-words leading-8 text-slate-700">{children}</p>
   ),
   ul: ({ children }) => (
     <ul className="mt-4 list-disc space-y-2 pl-6 text-slate-700">{children}</ul>
@@ -50,6 +50,14 @@ const components: Components = {
       {children}
     </ol>
   ),
+  pre: ({ children }) => (
+    <pre className="mt-4 max-w-full overflow-x-auto rounded-lg bg-slate-950 p-4 text-sm leading-6 text-slate-100">
+      {children}
+    </pre>
+  ),
+  code: ({ children }) => (
+    <code className="break-all font-mono text-[0.9em]">{children}</code>
+  ),
 };
 
 export const MarkdownArticle = ({
@@ -57,7 +65,7 @@ export const MarkdownArticle = ({
 }: {
   readonly markdown: string;
 }) => (
-  <article className="markdown-content text-left">
+  <article className="markdown-content min-w-0 text-left">
     <ReactMarkdown components={components} remarkPlugins={[remarkGfm]}>
       {markdown}
     </ReactMarkdown>

@@ -50,7 +50,13 @@ export const createReadApi = (dependencies: ReadApiDependencies): Hono => {
       return context.json(
         await dependencies.posts.listPublished(parsed.data.limit),
       );
-    } catch {
+    } catch (error: unknown) {
+      console.info(
+        JSON.stringify({
+          errorName: error instanceof Error ? error.name : "unknown",
+          event: "post-list-load-failed",
+        }),
+      );
       return context.json(
         errorResponse("INTERNAL_ERROR", "Unable to load posts."),
         500,
@@ -71,8 +77,42 @@ export const createReadApi = (dependencies: ReadApiDependencies): Hono => {
         return context.json(errorResponse("NOT_FOUND", "Post not found."), 404);
       }
       const markdown = await dependencies.markdown.getPublished(post.postId);
-      return context.json(postDetailSchema.parse({ ...post, markdown }));
-    } catch {
+      return context.json(
+        postDetailSchema.parse({
+          markdown,
+          postId: post.postId,
+          publishedAt: post.publishedAt,
+          sourceUrls: post.sourceUrls,
+          title: post.title,
+        }),
+      );
+    } catch (error: unknown) {
+      console.info(
+        JSON.stringify({
+          errorName: error instanceof Error ? error.name : "unknown",
+          event: "post-detail-load-failed",
+          issues:
+            typeof error === "object" &&
+            error !== null &&
+            "issues" in error &&
+            Array.isArray(error.issues)
+              ? error.issues.map((issue) =>
+                  typeof issue === "object" && issue !== null
+                    ? {
+                        code:
+                          "code" in issue && typeof issue.code === "string"
+                            ? issue.code
+                            : "unknown",
+                        path:
+                          "path" in issue && Array.isArray(issue.path)
+                            ? issue.path
+                            : [],
+                      }
+                    : { code: "unknown", path: [] },
+                )
+              : [],
+        }),
+      );
       return context.json(
         errorResponse("INTERNAL_ERROR", "Unable to load post."),
         500,
